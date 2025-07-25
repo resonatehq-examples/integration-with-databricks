@@ -117,7 +117,7 @@ uvicorn app:app --reload
 python trigger.py --id foo --url https://823166f9008f.ngrok-free.app
 ```
 
-![NewJobs](./assets/newjobs.png)
+![NewJobs](./assets/newjob.png)
 
 On the job finishes you'll see this line get printed
 
