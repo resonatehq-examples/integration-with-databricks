@@ -2,11 +2,13 @@ import os
 from collections.abc import Generator
 import json
 from typing import Any
-import uuid
 from fastapi import FastAPI
 from resonate import Context, Yieldable, Resonate
 from databricks_cli.sdk.api_client import ApiClient
 from databricks_cli.jobs.api import JobsApi
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
 resonate = Resonate().remote(group="default")

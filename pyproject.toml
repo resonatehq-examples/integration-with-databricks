@@ -7,10 +7,12 @@ requires-python = ">=3.13"
 dependencies = [
     "databricks-cli>=0.18.0",
     "fastapi[standard]>=0.116.1",
+    "python-dotenv>=1.1.1",
     "resonate-sdk>=0.6.1",
 ]
 
 [dependency-groups]
 dev = [
+    "pyright>=1.1.403",
     "ruff>=0.12.5",
 ]

@@ -102,3 +102,29 @@ This is how you define Resonate workflows. The idea here is to first create a pr
 The job might take anywhere between 3 minutes to 10 minutes. Doesn't matter, the only think we care about is that Resonate will resume the execution of the workflow once the notebook finished. This is true even if you kill the backend service, once one node is available Resonate will resume the invocation from when it was previously.
 
 Finally, we `yield p`. Awaiting the execution until the promise is resolved. This can be minutes, as most likely will be, hours or even days (If let's say, the team had a bug on the notebook they need to fix first)
+
+### How to run
+
+```bash
+resonate serve --aio-store-sqlite-path :memory:
+```
+
+```bash
+uvicorn app:app --reload
+```
+
+```bash
+python trigger.py --id foo --url https://823166f9008f.ngrok-free.app
+```
+
+![NewJobs](./assets/newjobs.png)
+
+On the job finishes you'll see this line get printed
+
+```python
+print(f"databricks execution has finished with value {v}")
+```
+
+```bash
+python trigger.py --id foo --url https://823166f9008f.ngrok-free.app
+```
