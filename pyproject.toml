@@ -1,0 +1,16 @@
+[project]
+name = "integration-with-databricks"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "databricks-cli>=0.18.0",
+    "fastapi[standard]>=0.116.1",
+    "resonate-sdk>=0.6.1",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.12.5",
+]
