@@ -1,8 +1,7 @@
 import os
 from collections.abc import Generator
 import json
-from random import random
-from typing import Any, Callable, Concatenate
+from typing import Any
 from fastapi import FastAPI
 from resonate import Context, Yieldable, Resonate
 from databricks_cli.sdk.api_client import ApiClient
@@ -12,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = FastAPI()
-resonate = Resonate().remote(group="default")
+resonate = Resonate().remote()
 resonate.start()
 
 
@@ -30,23 +29,20 @@ async def resolve(id: str, value: str):
     resonate.promises.resolve(id, ikey=id, data=json.dumps(value))
 
 
-
-# workflows
 @resonate.register
 def data_pipeline(ctx: Context, url: str) -> Generator[Yieldable, Any, None]:
     p = yield ctx.promise()
-    yield ctx.run(run_job, promise_id=p.id, job=6111267383558, url=url)
+    yield ctx.run(run_job, promise_id=p.id, job=int(os.environ["JOB_ID"]), url=url)
     v = yield p
+    # yield ctx.run(send_email)
     print(f"databricks execution has finished with value {v}")
-    # continue any business logic
-
     return
 
-# functions
+
 def run_job(ctx: Context, promise_id: str, job: int, url: str) -> None:
     client = ApiClient(
-        host="https://dbc-711faa31-5f0c.cloud.databricks.com",
-        token=os.environ["TOKEN"],
+        host=os.environ["DATABRICKS_HOST"],
+        token=os.environ["DATABRICKS_TOKEN"],
     )
     jobs = JobsApi(client)
     jobs.run_now(
